@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Created on Thu Jun 11 22:34:20 2020
+Created on Wed Jun 20 22:48:20 2023
 
-@author: Krish Naik
+@author: Manan Bedi
 """
 
 from __future__ import division, print_function
@@ -14,16 +14,7 @@ import re
 import numpy as np
 import tensorflow as tf
 import tensorflow as tf
-
-from tensorflow.compat.v1 import ConfigProto
-from tensorflow.compat.v1 import InteractiveSession
-
-config = ConfigProto()
-config.gpu_options.per_process_gpu_memory_fraction = 0.2
-config.gpu_options.allow_growth = True
-session = InteractiveSession(config=config)
-# Keras
-from tensorflow.keras.applications.resnet50 import preprocess_input
+from tensorflow.keras.applications.inception_v3 import preprocess_input
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
 
@@ -36,13 +27,10 @@ from werkzeug.utils import secure_filename
 app = Flask(__name__)
 
 # Model saved with Keras model.save()
-MODEL_PATH ='model_resnet152V2.h5'
+MODEL_PATH ='model_inception.h5'
 
 # Load your trained model
-model = load_model(MODEL_PATH)
-
-
-
+model = load_model(MODEL_PATH, compile=False)
 
 def model_predict(img_path, model):
     print(img_path)
@@ -69,10 +57,7 @@ def model_predict(img_path, model):
     elif preds==2:
         preds="The leaf is fresh cotton leaf"
     else:
-        preds="The leaf is fresh cotton plant"
-        
-    
-    
+        preds="The leaf is fresh cotton plant"    
     return preds
 
 
